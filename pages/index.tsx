@@ -9,10 +9,10 @@ import { FormEvent } from 'react';
 
 export default function Home() {
 	const { session, signInWithTwitter } = useAuth();
+	console.log({ session });
 
 	const logout = async () => {
 		await supabase.auth.signOut();
-		Router.reload();
 	};
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

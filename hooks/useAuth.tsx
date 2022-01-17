@@ -40,7 +40,6 @@ const useAuthLayer = () => {
 	const [session, setSession] = useState<Session | null>(
 		supabase.auth.session()
 	);
-	console.log({ session });
 
 	const signInWithTwitter = async () => {
 		const { session } = await supabase.auth.signIn({
@@ -51,7 +50,7 @@ const useAuthLayer = () => {
 
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((event, session) => {
-			console.log({ event, session });
+			setSession(session);
 		});
 	});
 
