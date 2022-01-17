@@ -12,6 +12,7 @@ import { supabase } from '@/utils/supabase';
 
 interface initialProps {
 	session: Session | null;
+	logout: () => Promise<void>;
 	signInWithTwitter: () => Promise<any>;
 	setSession: Dispatch<SetStateAction<Session | null>>;
 }
@@ -19,6 +20,7 @@ interface initialProps {
 const initialState: initialProps = {
 	session: null,
 	setSession: () => null,
+	logout: async () => {},
 	signInWithTwitter: async () => {},
 };
 
@@ -48,6 +50,10 @@ const useAuthLayer = () => {
 		setSession(session);
 	};
 
+	const logout = async () => {
+		await supabase.auth.signOut();
+	};
+
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((event, session) => {
 			setSession(session);
@@ -55,6 +61,7 @@ const useAuthLayer = () => {
 	});
 
 	return {
+		logout,
 		session,
 		setSession,
 		signInWithTwitter,
