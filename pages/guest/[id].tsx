@@ -1,10 +1,8 @@
 import { supabase } from '@/utils/supabase';
-import { Text, Image, Box, Stack, Badge } from '@chakra-ui/react';
+import { Image, Box, Stack, Badge } from '@chakra-ui/react';
 import { GetStaticProps } from 'next';
 import { Message as MessageType } from '@/types/index';
 import Message from '@/components/Message';
-import { format } from 'path';
-import { PostgrestError } from '@supabase/supabase-js';
 
 interface Props {
 	messages: MessageType[];
@@ -48,7 +46,7 @@ export async function getStaticPaths() {
 	const ownerIds = [...new Set(data?.map(({ ownerId }) => ownerId))];
 	const paths = ownerIds.map((id) => ({ params: { id } }));
 
-	return { paths, fallback: true };
+	return { paths, fallback: false };
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -58,5 +56,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		.eq('ownerId', params?.id)
 		.order('id', { ascending: false });
 
-	return { props: { messages: data, error } };
+	return { props: { messages: data } };
 };
