@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function GuestPage({ messages }: Props) {
-	return !messages.length ? null : (
+	return !messages?.length ? null : (
 		<Box>
 			<Image
 				h={16}
