@@ -7,12 +7,11 @@ import { format } from 'path';
 import { PostgrestError } from '@supabase/supabase-js';
 
 interface Props {
-	error: PostgrestError | null;
 	messages: MessageType[];
 }
 
 export default function GuestPage({ messages }: Props) {
-	return (
+	return !messages.length ? null : (
 		<Box>
 			<Image
 				h={16}
@@ -48,7 +47,6 @@ export async function getStaticPaths() {
 
 	const ownerIds = [...new Set(data?.map(({ ownerId }) => ownerId))];
 	const paths = ownerIds.map((id) => ({ params: { id } }));
-	console.log({ paths: paths.map((el) => el.params) });
 
 	return { paths, fallback: true };
 }
@@ -59,8 +57,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		.select()
 		.eq('ownerId', params?.id)
 		.order('id', { ascending: false });
-
-	console.log({ data, error });
 
 	return { props: { messages: data, error } };
 };
