@@ -4,8 +4,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { BsTwitter } from 'react-icons/bs';
 import MessageList from '@/components/MessageList';
 import { FormEvent } from 'react';
+import { supabase } from '@/utils/supabase';
+import { Message } from '../types/index';
+import { GetStaticProps } from 'next';
 
-export default function Home() {
+interface Props {
+	messages: Message[];
+}
+
+export default function Home({ messages }: Props) {
 	const { session, signInWithTwitter } = useAuth();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -54,7 +61,16 @@ export default function Home() {
 					<MessageInput />
 				</form>
 			)}
-			<MessageList />
+			<MessageList messages={messages} />
 		</>
 	);
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+	const { data } = await supabase
+		.from('guestbook')
+		.select()
+		.order('id', { ascending: false });
+
+	return { props: { messages: data } };
+};

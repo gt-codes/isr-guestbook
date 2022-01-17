@@ -1,22 +1,12 @@
 import { Stack } from '@chakra-ui/react';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { Message as MessageType } from '../types';
 import Message from './Message';
 
-export default function MessageList() {
-	const [messages, setMessages] = useState<MessageType[]>([]);
+interface Props {
+	messages: MessageType[];
+}
 
-	useEffect(() => {
-		const getMessages = async () => {
-			const res = await fetch('/api/getMessages');
-			const data = await res.json();
-			setMessages(data);
-		};
-
-		getMessages();
-	}, []);
-
+export default function MessageList({ messages }: Props) {
 	return (
 		<Stack
 			mt={12}
