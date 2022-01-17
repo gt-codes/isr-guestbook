@@ -46,7 +46,7 @@ export async function getStaticPaths() {
 
 	const ownerIds = [...new Set(data?.map(({ ownerId }) => ownerId))];
 	const paths = ownerIds.map((id) => ({ params: { id } }));
-	console.log({ paths: paths.map((el) => el) });
+	console.log({ paths: paths.map((el) => el.params) });
 
 	return { paths, fallback: true };
 }
