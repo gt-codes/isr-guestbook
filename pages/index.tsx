@@ -1,26 +1,19 @@
-import { Button, Flex, Heading, Center } from '@chakra-ui/react';
-import Router from 'next/router';
+import { Button, Heading } from '@chakra-ui/react';
 import MessageInput from '@/components/MessageInput';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/utils/supabase';
 import { BsTwitter } from 'react-icons/bs';
 import MessageList from '@/components/MessageList';
 import { FormEvent } from 'react';
 
 export default function Home() {
 	const { session, signInWithTwitter } = useAuth();
-	console.log({ session });
-
-	const logout = async () => {
-		await supabase.auth.signOut();
-	};
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const { message } = e.target as any;
 		if (!message.value) return;
 
-		const res = await fetch('/api/addMessage', {
+		await fetch('/api/addMessage', {
 			method: 'POST',
 			body: JSON.stringify({
 				message: message.value,
@@ -29,49 +22,39 @@ export default function Home() {
 				username: session?.user?.user_metadata.user_name,
 			}),
 		});
-		await res.json();
 		message.value = '';
 	};
 
 	return (
-		<Center w="100vw" h="100vh" alignItems="start" pos="relative">
-			<Button pos="absolute" top={2} left={2} onClick={logout}>
-				Logout
-			</Button>
-			<Flex
-				flexDir="column"
-				w="full"
-				h="full"
-				maxW="3xl"
-				pt={{ base: 12, md: 24 }}
+		<>
+			<Heading
+				textAlign="center"
+				bgGradient="linear(to-r, #42A5F5, #0D47A1)"
+				bgClip="text"
+				fontSize="5xl"
+				fontWeight="black"
+				mb={12}
 			>
-				<Heading
-					textAlign="center"
-					bgGradient="linear(to-r, #42A5F5, #0D47A1)"
-					bgClip="text"
-					fontSize="5xl"
-					fontWeight="black"
-					mb={12}
+				ISR Guestbook
+			</Heading>
+			{!session ? (
+				<Button
+					onClick={signInWithTwitter}
+					w="fit-content"
+					py={2}
+					px={4}
+					margin="auto"
+					colorScheme="twitter"
+					leftIcon={<BsTwitter />}
 				>
-					ISR Guestbook
-				</Heading>
-				{!session ? (
-					<Button
-						onClick={signInWithTwitter}
-						w="fit-content"
-						margin="auto"
-						colorScheme="twitter"
-						leftIcon={<BsTwitter />}
-					>
-						Sign in with Twitter
-					</Button>
-				) : (
-					<form onSubmit={handleSubmit}>
-						<MessageInput />
-					</form>
-				)}
-				<MessageList />
-			</Flex>
-		</Center>
+					Sign in with Twitter
+				</Button>
+			) : (
+				<form onSubmit={handleSubmit}>
+					<MessageInput />
+				</form>
+			)}
+			<MessageList />
+		</>
 	);
 }
