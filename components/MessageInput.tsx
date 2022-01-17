@@ -37,6 +37,7 @@ export default function MessageInput() {
 					id="message"
 					type="text"
 					pl={12}
+					pr={20}
 					placeholder="Your message"
 				/>
 				<InputRightElement w="fit-content">
