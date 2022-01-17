@@ -13,7 +13,7 @@ export default function Home() {
 	};
 
 	return (
-		<Center w="100vw" h="100vh">
+		<Center w="100vw" h="100vh" alignItems="start">
 			<Flex flexDir="column" w="full" maxW="3xl" p={{ base: 6, md: 24 }}>
 				<Heading textAlign="center">ISR Guestbook</Heading>
 				{!session ? (
