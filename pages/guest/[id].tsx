@@ -50,7 +50,7 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { data, error } = await supabase
+	const { data } = await supabase
 		.from('guestbook')
 		.select()
 		.eq('ownerId', params?.id)
