@@ -19,5 +19,6 @@ export default async function handler(
 		res.status(400).json({ error: error.message });
 		return;
 	}
-	res.status(200).json({ message: 'Message added' });
+
+	res.redirect('/');
 }
