@@ -4,8 +4,10 @@ import { GetStaticProps } from 'next';
 import { Message as MessageType } from '@/types/index';
 import Message from '@/components/Message';
 import { format } from 'path';
+import { PostgrestError } from '@supabase/supabase-js';
 
 interface Props {
+	error: PostgrestError | null;
 	messages: MessageType[];
 }
 
@@ -52,14 +54,13 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { data } = await supabase
+	const { data, error } = await supabase
 		.from('guestbook')
 		.select()
 		.eq('ownerId', params?.id)
 		.order('id', { ascending: false });
-	console.log({ data });
 
-	return {
-		props: { messages: data },
-	};
+	console.log({ data, error });
+
+	return { props: { messages: data, error } };
 };
