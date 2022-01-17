@@ -34,13 +34,16 @@ export default function Home() {
 	};
 
 	return (
-		<Center w="100vw" h="100vh" alignItems="start">
+		<Center w="100vw" h="100vh" alignItems="start" pos="relative">
+			<Button pos="absolute" top={2} left={2} onClick={logout}>
+				Logout
+			</Button>
 			<Flex
 				flexDir="column"
 				w="full"
 				h="full"
 				maxW="3xl"
-				pt={{ base: 6, md: 24 }}
+				pt={{ base: 12, md: 24 }}
 			>
 				<Heading
 					textAlign="center"
@@ -63,13 +66,11 @@ export default function Home() {
 						Sign in with Twitter
 					</Button>
 				) : (
-					<>
-						<form onSubmit={handleSubmit}>
-							<MessageInput />
-						</form>
-						<MessageList />
-					</>
+					<form onSubmit={handleSubmit}>
+						<MessageInput />
+					</form>
 				)}
+				<MessageList />
 			</Flex>
 		</Center>
 	);

@@ -1,15 +1,10 @@
-import { useAuth } from '@/hooks/useAuth';
 import { Image, Text, HStack, Stack } from '@chakra-ui/react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { HiOutlineClock } from 'react-icons/hi';
 
 export default function MessageList() {
 	const [messages, setMessages] = useState<any[]>([]);
-	const { session, signInWithTwitter } = useAuth();
-
-	console.log({ messages });
 
 	useEffect(() => {
 		const getMessages = async () => {
@@ -18,8 +13,8 @@ export default function MessageList() {
 			setMessages(data);
 		};
 
-		session && getMessages();
-	}, [session]);
+		getMessages();
+	}, []);
 
 	return (
 		<Stack
