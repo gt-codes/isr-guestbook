@@ -17,7 +17,7 @@ export default function MessageInput() {
 	const { session } = useAuth();
 
 	return (
-		<FormControl mt={4}>
+		<FormControl mt={4} px={{ base: 4, md: 24 }}>
 			<FormLabel htmlFor="message" color="gray.600" fontWeight="medium">
 				Share a message for others to see
 			</FormLabel>
@@ -41,7 +41,7 @@ export default function MessageInput() {
 				/>
 				<InputRightElement w="fit-content">
 					<Button
-						type="button"
+						type="submit"
 						mr={1}
 						h={8}
 						rounded="full"
