@@ -7,6 +7,8 @@ import {
 	InputLeftElement,
 	Input,
 	FormHelperText,
+	InputRightElement,
+	Button,
 } from '@chakra-ui/react';
 import { HiOutlineShieldCheck } from 'react-icons/hi';
 import { useAuth } from '@/hooks/useAuth';
@@ -37,6 +39,18 @@ export default function MessageInput() {
 					pl={12}
 					placeholder="Your message"
 				/>
+				<InputRightElement w="fit-content">
+					<Button
+						type="button"
+						mr={1}
+						h={8}
+						rounded="full"
+						px={4}
+						colorScheme="messenger"
+					>
+						Sign
+					</Button>
+				</InputRightElement>
 			</InputGroup>
 			<FormHelperText color="gray.500" display="flex" alignItems="center">
 				<Text as="span" mr={1}>
