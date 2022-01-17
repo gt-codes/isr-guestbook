@@ -44,9 +44,9 @@ export async function getStaticPaths() {
 		.select()
 		.order('id', { ascending: false });
 
-	// get unique guest ids
 	const ownerIds = [...new Set(data?.map(({ ownerId }) => ownerId))];
 	const paths = ownerIds.map((id) => ({ params: { id } }));
+	console.log({ paths });
 
 	return { paths, fallback: true };
 }
@@ -57,6 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		.select()
 		.eq('ownerId', params?.id)
 		.order('id', { ascending: false });
+	console.log({ data });
 
 	return {
 		props: { messages: data },
