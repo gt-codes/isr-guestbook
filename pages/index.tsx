@@ -1,10 +1,35 @@
-import { Flex, Heading } from '@chakra-ui/react';
-import Head from 'next/head';
+import { Button, Text, Flex, Heading, Stack, Center } from '@chakra-ui/react';
+import Router from 'next/router';
+import MessageInput from '@/components/MessageInput';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/utils/supabase';
 
 export default function Home() {
+	const { session, signInWithTwitter } = useAuth();
+
+	const logout = async () => {
+		await supabase.auth.signOut();
+		Router.reload();
+	};
+
 	return (
-		<Flex w="100vw" h="100vh" justifyContent="center" p={24}>
-			<Heading>ISR Guestbook</Heading>
-		</Flex>
+		<Center w="100vw" h="100vh">
+			<Flex flexDir="column" w="full" maxW="3xl" p={{ base: 6, md: 24 }}>
+				<Heading textAlign="center">ISR Guestbook</Heading>
+				{!session ? (
+					<Button onClick={signInWithTwitter} w="fit-content" mt={12}>
+						Sign in
+					</Button>
+				) : (
+					<>
+						<MessageInput />
+
+						<Button onClick={logout} w="fit-content" mt={12}>
+							Logout
+						</Button>
+					</>
+				)}
+			</Flex>
+		</Center>
 	);
 }
