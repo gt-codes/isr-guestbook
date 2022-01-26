@@ -56,5 +56,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		.eq('ownerId', params?.id)
 		.order('id', { ascending: false });
 
-	return { props: { messages: data } };
+	return { props: { messages: data }, revalidate: 60 };
 };
