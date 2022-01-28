@@ -1,6 +1,6 @@
 import { supabase } from '@/utils/supabase';
-import { Image, Box, Stack, Badge } from '@chakra-ui/react';
-import { GetStaticProps } from 'next';
+import { Box, Stack, Badge } from '@chakra-ui/react';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { Message as MessageType } from '@/types/index';
 import Message from '@/components/Message';
 
@@ -11,15 +11,6 @@ interface Props {
 export default function GuestPage({ messages }: Props) {
 	return !messages?.length ? null : (
 		<Box>
-			<Image
-				h={16}
-				w={16}
-				objectFit="cover"
-				rounded="full"
-				alt="avatar"
-				margin="auto"
-				src={messages[0].avi}
-			/>
 			<Stack
 				spacing={1}
 				mt={12}
@@ -37,24 +28,25 @@ export default function GuestPage({ messages }: Props) {
 	);
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
 	const { data } = await supabase
 		.from('guestbook')
 		.select()
 		.order('id', { ascending: false });
 
-	const ownerIds = [...new Set(data?.map(({ ownerId }) => ownerId))];
-	const paths = ownerIds.map((id) => ({ params: { id } }));
+	const usernames = [...new Set(data?.map(({ username }) => username))];
+	const paths = usernames.map((username) => ({ params: { username } }));
 
-	return { paths, fallback: false };
-}
+	return { paths, fallback: 'blocking' };
+};
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const { data } = await supabase
 		.from('guestbook')
 		.select()
-		.eq('ownerId', params?.id)
+		.eq('username', params?.username)
 		.order('id', { ascending: false });
 
+	if (!data?.length) return { notFound: true };
 	return { props: { messages: data }, revalidate: 60 };
 };

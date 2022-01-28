@@ -1,4 +1,4 @@
-import { Stack, Image, Text, HStack } from '@chakra-ui/react';
+import { Stack, Text, HStack } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { Message as MessageType } from '@/types/index';
@@ -14,7 +14,7 @@ export default function Message({ message }: Props) {
 
 	const handleClick = () => {
 		if (!isHome) return;
-		router.push(`/guest/${message.ownerId}`);
+		router.push(`/guest/${message.username}`);
 	};
 
 	return (
@@ -46,7 +46,6 @@ export default function Message({ message }: Props) {
 						cursor="pointer"
 						_hover={{ bg: 'gray.100' }}
 					>
-						<Image src={message.avi} alt="avatar" rounded="full" h={4} w={4} />
 						<Text fontSize="xs" color="gray.600">
 							{message.username}
 						</Text>
