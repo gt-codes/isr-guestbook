@@ -72,5 +72,5 @@ export const getStaticProps: GetStaticProps = async () => {
 		.select()
 		.order('id', { ascending: false });
 
-	return { props: { messages: data } };
+	return { props: { messages: data }, revalidate: 60 };
 };
