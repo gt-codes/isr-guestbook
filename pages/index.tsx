@@ -1,4 +1,4 @@
-import { Button, Heading } from '@chakra-ui/react';
+import { Button, Heading, useToast } from '@chakra-ui/react';
 import MessageInput from '@/components/MessageInput';
 import { useAuth } from '@/hooks/useAuth';
 import { BsTwitter } from 'react-icons/bs';
@@ -14,6 +14,7 @@ interface Props {
 
 export default function Home({ messages }: Props) {
 	const { session, signInWithTwitter } = useAuth();
+	const toast = useToast();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -30,6 +31,15 @@ export default function Home({ messages }: Props) {
 			}),
 		});
 		message.value = '';
+
+		toast({
+			title: 'Thanks for signing!',
+			description: "You'll see your message in the guestbook shortly.",
+			status: 'success',
+			duration: 5000,
+			isClosable: true,
+			position: 'top-right',
+		});
 	};
 
 	return (
